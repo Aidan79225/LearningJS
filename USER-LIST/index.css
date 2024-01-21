@@ -1,0 +1,4 @@
+.user-cascade-item {
+    display: flex;
+    flex-direction: column;
+}
