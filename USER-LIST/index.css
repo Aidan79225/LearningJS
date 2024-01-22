@@ -1,0 +1,21 @@
+.avatar-group {
+    position: relative;
+    display: inline-block;
+    ;
+}
+
+.fav-icon {
+    position: absolute;
+    margin: 10px;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.un-fav-icon {
+    position: absolute;
+    margin: 10px;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
