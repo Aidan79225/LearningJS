@@ -13,6 +13,7 @@ const shouldDisplayUserProperty = [
     'region',
     'birthday'
 ]
+
 async function showUserModal(userId) {
     const modalTitle = document.querySelector('#user-modal-title')
     const modalDescription = document.querySelector('#user-modal-description')
@@ -25,23 +26,6 @@ async function showUserModal(userId) {
     }).map((k) => `${k}: ${userInfo[k]}`).join('<br />')
     modalAvatar.src = userInfo.avatar
     console.log(userInfo)
-}
-async function startApplication() {
-    try {
-        const response = await axios.get(INDEX_API_URL)
-        const userList = response.data.results
-        dataPanel.innerHTML = userList.map((user) => {
-            return createUserItem(user)
-        }).join('')
-
-        dataPanel.addEventListener('click', (event) => {
-            if (event.target.matches('.user-avatar')) {
-                showUserModal(event.target.dataset.userId)
-            }
-        })
-    } catch (error) {
-        console.error(`${error}: fetch user failed`)
-    }
 }
 
 function createUserItem(user) {
@@ -56,6 +40,75 @@ function createUserItem(user) {
         </div>
     </div>
         `
+}
+
+function paginationItemTemplate(idx, text) {
+    return `<li class="page-item"><a class="page-link" href="#" data-page="${idx}">${text}</a></li>`
+}
+
+function renderPagination(userList, paginationContainer) {
+    const PAGE_SIZE = 18
+    console.log(paginationContainer.innerHTML)
+    const totalPage = Math.ceil(userList.length / PAGE_SIZE)
+    paginationContainer.innerHTML =
+        [...Array(totalPage).keys()]
+            .map((idx) => paginationItemTemplate(idx, idx + 1))
+            .join('\n')
+    paginationContainer.removeEventListener('click', onPageClick)
+    paginationContainer.addEventListener()
+
+    console.log(paginationContainer.innerHTML)
+}
+
+function renderUserList(userList, paginationContainer) {
+    renderPagination(userList, paginationContainer)
+    dataPanel.innerHTML = userList.map((user) => {
+        return createUserItem(user)
+    }).join('')
+}
+
+function searchUserByName(key) {
+    return userList.filter((user) => {
+        if (key === null || key === '') {
+            return true
+        }
+        return user.name.includes(key)
+    })
+}
+
+function onPageClick(event) {
+    if (event.target.matches('.page-link')) {
+        event.preventDefault()
+        document.querySelectorAll('.page-item').forEach((pageLink) => {
+            pageLink.classList.remove('active')
+        })
+        event.target.parentElement.classList.add('active')
+
+    }
+}
+
+async function startApplication() {
+    try {
+        const response = await axios.get(INDEX_API_URL)
+        const userList = response.data.results
+        const searchInput = document.querySelector('#search-input')
+        const searchButton = document.querySelector('#search-submit-button')
+        const paginationContainer = document.querySelector('#pagination')
+
+        dataPanel.addEventListener('click', (event) => {
+            if (event.target.matches('.user-avatar')) {
+                showUserModal(event.target.dataset.userId)
+            }
+        })
+        searchButton.addEventListener('click', (event) => {
+            event.preventDefault()
+            renderUserList(searchUserByName(searchInput.value), paginationContainer)
+        })
+
+        renderUserList(userList, paginationContainer)
+    } catch (error) {
+        console.error(`${error}: fetch user failed`)
+    }
 }
 
 startApplication()
