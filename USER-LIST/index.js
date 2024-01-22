@@ -25,7 +25,6 @@ async function showUserModal(userId) {
         return shouldDisplayUserProperty.includes(value)
     }).map((k) => `${k}: ${userInfo[k]}`).join('<br />')
     modalAvatar.src = userInfo.avatar
-    console.log(userInfo)
 }
 
 function createUserItem(user) {
@@ -46,28 +45,33 @@ function paginationItemTemplate(idx, text) {
     return `<li class="page-item"><a class="page-link" href="#" data-page="${idx}">${text}</a></li>`
 }
 
-function renderPagination(userList, paginationContainer) {
+function generatePaginationContainer() {
+    return `<ul id="pagination" class="pagination justify-content-center"></ul>`
+}
+
+function renderPagination(userList) {
     const PAGE_SIZE = 18
-    console.log(paginationContainer.innerHTML)
+    const paginationNav = document.querySelector('#pagination-nav')
+    paginationNav.innerHTML = generatePaginationContainer()
+    const paginationContainer = document.querySelector('#pagination')
     const totalPage = Math.ceil(userList.length / PAGE_SIZE)
     paginationContainer.innerHTML =
         [...Array(totalPage).keys()]
             .map((idx) => paginationItemTemplate(idx, idx + 1))
             .join('\n')
-    paginationContainer.removeEventListener('click', onPageClick)
-    paginationContainer.addEventListener()
 
-    console.log(paginationContainer.innerHTML)
+    const pages = chunkUserList(userList, PAGE_SIZE)
+    setupPageClick(paginationContainer, pages)
+    document.querySelector('.page-link').click()
 }
 
-function renderUserList(userList, paginationContainer) {
-    renderPagination(userList, paginationContainer)
+function renderUserList(userList) {
     dataPanel.innerHTML = userList.map((user) => {
         return createUserItem(user)
     }).join('')
 }
 
-function searchUserByName(key) {
+function searchUserByName(userList, key) {
     return userList.filter((user) => {
         if (key === null || key === '') {
             return true
@@ -75,16 +79,25 @@ function searchUserByName(key) {
         return user.name.includes(key)
     })
 }
-
-function onPageClick(event) {
-    if (event.target.matches('.page-link')) {
-        event.preventDefault()
-        document.querySelectorAll('.page-item').forEach((pageLink) => {
-            pageLink.classList.remove('active')
-        })
-        event.target.parentElement.classList.add('active')
-
+function chunkUserList(userList, chunkSize) {
+    const result = [];
+    for (let i = 0; i < userList.length; i += chunkSize) {
+        result.push(userList.slice(i, i + chunkSize));
     }
+    return result;
+}
+
+function setupPageClick(paginationContainer, pages) {
+    paginationContainer.addEventListener('click', (event) => {
+        if (event.target.matches('.page-link')) {
+            event.preventDefault()
+            document.querySelectorAll('.page-item').forEach((pageLink) => {
+                pageLink.classList.remove('active')
+            })
+            event.target.parentElement.classList.add('active')
+            renderUserList(pages[event.target.dataset.page])
+        }
+    })
 }
 
 async function startApplication() {
@@ -93,7 +106,6 @@ async function startApplication() {
         const userList = response.data.results
         const searchInput = document.querySelector('#search-input')
         const searchButton = document.querySelector('#search-submit-button')
-        const paginationContainer = document.querySelector('#pagination')
 
         dataPanel.addEventListener('click', (event) => {
             if (event.target.matches('.user-avatar')) {
@@ -102,10 +114,10 @@ async function startApplication() {
         })
         searchButton.addEventListener('click', (event) => {
             event.preventDefault()
-            renderUserList(searchUserByName(searchInput.value), paginationContainer)
+            renderPagination(searchUserByName(userList, searchInput.value))
         })
 
-        renderUserList(userList, paginationContainer)
+        renderPagination(userList)
     } catch (error) {
         console.error(`${error}: fetch user failed`)
     }
