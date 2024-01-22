@@ -79,6 +79,7 @@ function searchUserByName(userList, key) {
         return user.name.includes(key)
     })
 }
+
 function chunkUserList(userList, chunkSize) {
     const result = [];
     for (let i = 0; i < userList.length; i += chunkSize) {
@@ -116,8 +117,7 @@ async function startApplication() {
             event.preventDefault()
             renderPagination(searchUserByName(userList, searchInput.value))
         })
-
-        renderPagination(userList)
+        searchButton.click()
     } catch (error) {
         console.error(`${error}: fetch user failed`)
     }
