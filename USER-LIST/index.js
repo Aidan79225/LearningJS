@@ -57,7 +57,7 @@ function createUserItem(user, favList) {
             <h5 class="card-title">${user.name}</h5>
         </div>
     </div>
-        `
+    `
 }
 
 function paginationItemTemplate(idx, text) {
