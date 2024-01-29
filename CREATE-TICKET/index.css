@@ -7,13 +7,13 @@
 screen {
     body {
         -webkit-print-color-adjust: exact;
+        font-family: Microsoft JhengHei;
     }
 
     .page {
         width: 210mm;
         min-height: 297mm;
-        padding: 20mm;
-
+        padding: 5mm;
         border: 1px #D3D3D3 solid;
         border-radius: 5px;
         background: white;
@@ -22,8 +22,8 @@ screen {
 
     .subpage {
         padding: 0.5cm;
-        height: 257mm;
-        outline: 2cm #FFFFFF solid;
+        height: 287mm;
+        outline: 5mm #FFFFFF solid;
         display: flex;
         flex-direction: column;
     }
@@ -35,15 +35,15 @@ screen {
     }
 
     .raffle-container {
-        flex: 2;
-        background-color: #48419f;
+        flex: 3;
+        background-color: #b51d2c;
         display: flex;
     }
 
 
     .name-container {
         flex: 1;
-        background-color: #000c42;
+        background-color: #e6e2da;
         display: flex;
     }
 
@@ -53,18 +53,22 @@ screen {
         flex-direction: column;
         margin: 5mm;
         padding: 5mm;
-        border: solid #4cb679;
+        border: solid #b19e8a;
         flex: 1;
     }
 
     .text {
-        font-size: 15px;
-        color: #4cb679;
+        font-size: 14px;
+        color: #e6e2da;
         margin: auto;
     }
 
+    .name-content .text {
+        color: #b19e8a;
+    }
+
     .title {
-        font-size: 32px;
+        font-size: 24px;
         font-weight: bold;
     }
 
@@ -75,6 +79,10 @@ screen {
         justify-content: center;
     }
 
+    .text .value {
+        font-weight: bold;
+    }
+
     td {
         text-align: center;
     }
@@ -82,5 +90,4 @@ screen {
     .info-content-table {
         flex: 1;
     }
-
 }

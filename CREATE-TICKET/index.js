@@ -34,7 +34,7 @@ function createTicket(user) {
     <div class="ticket-background">
         <div class="raffle-container">
             <div class="raffle-content">
-                <span class="text" style="font-size: 28px;">AirDroid Taipei</span>
+                <span class="text" style="font-size: 20px;">AirDroid Taipei</span>
                     <span class="text title">RAFFLE TICKET</span>
                     <div style="display: flex; justify-content: space-between;">
                         <span class="text">February 06, 2024</span>
@@ -51,12 +51,12 @@ function createTicket(user) {
                                 <span class="text">Name</span>
                             </td>
                             <td>
-                                <span class="text">${user.name}</span>
+                                <span class="text value">${user.name}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="text"></span>
+                                <span class="text value"></span>
                             </td>
                             <td>
                                 <span class="text">${user.alias}</span>
@@ -67,7 +67,7 @@ function createTicket(user) {
                                 <span class="text">No:</span>
                             </td>
                             <td>
-                                <span class="text">${ticket}</span>
+                                <span class="text value">${ticket}</span>
                             </td>
                         </tr>
                     </table>
@@ -92,7 +92,7 @@ async function startApplication() {
         const response = await axios.get(local)
         console.log(response.data[0])
 
-        const userList = chunkUserList(response.data, 3)
+        const userList = chunkUserList(response.data, 5)
         document.querySelector('#content').innerHTML = userList.map(list => createPage(list)).join('')
 
 
