@@ -30,8 +30,8 @@ screen {
 
     .ticket-background {
         display: flex;
+        flex-direction: row;
         flex: 1;
-        margin: 10px;
     }
 
     .raffle-container {
@@ -58,7 +58,7 @@ screen {
     }
 
     .text {
-        font-size: 14px;
+        font-size: 17px;
         color: #e6e2da;
         margin: auto;
     }
@@ -89,5 +89,10 @@ screen {
 
     .info-content-table {
         flex: 1;
+    }
+
+    hr.dashed {
+        border-top: 2px dashed #bbb;
+        margin: 0;
     }
 }

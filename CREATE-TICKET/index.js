@@ -40,40 +40,41 @@ function createTicket(user) {
                         <span class="text">February 06, 2024</span>
                         <span class="text">NO: ${ticket}</span>
                     </div>
-                </div>
             </div>
-            <div class="name-container">
-                <div class="name-content">
-                    <span class="text title">TICKET</span>
-                    <table class="info-content-table">
-                        <tr>
-                            <td>
-                                <span class="text">Name</span>
-                            </td>
-                            <td>
-                                <span class="text value">${user.name}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="text value"></span>
-                            </td>
-                            <td>
-                                <span class="text">${user.alias}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="text">No:</span>
-                            </td>
-                            <td>
-                                <span class="text value">${ticket}</span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+        </div>
+        <hr class="dashed">
+        <div class="name-container">
+            <div class="name-content">
+                <span class="text title">TICKET</span>
+                <table class="info-content-table">
+                    <tr>
+                        <td>
+                            <span class="text">Name</span>
+                        </td>
+                        <td>
+                            <span class="text value">${user.name}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="text value"></span>
+                        </td>
+                        <td>
+                            <span class="text">${user.alias}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="text">No:</span>
+                        </td>
+                        <td>
+                            <span class="text value">${ticket}</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
-        </div>`
+        </div>
+    </div>`
 }
 
 
@@ -82,7 +83,7 @@ function createPage(userList) {
     return `
     <div class="page">
         <div class="subpage">
-            ${userList.map(user => createTicket(user)).join('')}
+            ${userList.map(user => createTicket(user)).join('<hr class="dashed">')}
         </div>
     </div>`
 }
